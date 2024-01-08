@@ -7,11 +7,15 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "prisma:fmt": "prisma format",
+    "prisma:gen": "prisma generate",
+    "prisma:migrate": "prisma migrate dev --preview-feature",
+    "prisma:seed": "prisma db seed",
+    "fmt": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,12 +24,17 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "nest": "pnpm dlx"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed/main.ts"
+  },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
+    "@prisma/client": "5.7.1",
+    "bcrypt": "^5.1.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
