@@ -5,5 +5,5 @@ package-lock.json
 *.gz
 
 # env
-.env.*
+.env
 !.env.sample
