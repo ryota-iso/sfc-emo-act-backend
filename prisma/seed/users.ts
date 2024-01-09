@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../src/libs/prisma";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 
 async function createUsers() {
 	console.log("---------- create users ----------");
