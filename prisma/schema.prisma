@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  name         String        @unique @db.VarChar(255)
-  hashedPassword     String        @db.VarChar(255)
-  createdAt    DateTime      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime      @updatedAt @db.DateTime(0)
+  id             Int      @id @default(autoincrement())
+  username       String   @unique @db.VarChar(255)
+  hashedPassword String   @db.VarChar(255)
+  createdAt      DateTime @default(now()) @db.DateTime(0)
+  updatedAt      DateTime @updatedAt @db.DateTime(0)
 
   refreshToken RefreshToken?
   actions      Action[]
@@ -20,42 +20,42 @@ model User {
 }
 
 model RefreshToken {
-  id           Int      @id @default(autoincrement())
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int      @unique
-  hashedToken  String   @db.VarChar(255)
-  expiredAt    DateTime @db.DateTime(0)
-  createdAt    DateTime @default(now()) @db.DateTime(0)
-  updatedAt    DateTime @updatedAt @db.DateTime(0)
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int      @unique
+  hashedToken String   @db.VarChar(255)
+  expiredAt   DateTime @db.DateTime(0)
+  createdAt   DateTime @default(now()) @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
 }
 
 model Action {
-  id           Int           @id @default(autoincrement())
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int           @unique
-  name         String        @db.VarChar(255)
-  description  String        @db.VarChar(255)
-  createdAt    DateTime      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime      @updatedAt @db.DateTime(0)
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int      @unique
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
 
-  ActionLog    ActionLog[]
+  ActionLog ActionLog[]
 }
 
 model ActionLog {
-  id           Int           @id @default(autoincrement())
-  action       Action        @relation(fields: [actionId], references: [id], onDelete: Cascade)
-  actionId     Int           @unique
-  position     Unsupported("geometry")
-  gpsTime      DateTime      @db.DateTime(0)
-  createdAt    DateTime      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime      @updatedAt @db.DateTime(0)
+  id        Int                     @id @default(autoincrement())
+  action    Action                  @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  actionId  Int                     @unique
+  position  Unsupported("geometry")
+  gpsTime   DateTime                @db.DateTime(0)
+  createdAt DateTime                @default(now()) @db.DateTime(0)
+  updatedAt DateTime                @updatedAt @db.DateTime(0)
 }
 
 model Setting {
-  id           Int           @id @default(autoincrement())
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       Int           @unique
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      @unique
   // TODO: 設定の詳細を考える
-  createdAt    DateTime      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime      @updatedAt @db.DateTime(0)
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  updatedAt DateTime @updatedAt @db.DateTime(0)
 }

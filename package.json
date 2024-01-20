@@ -10,7 +10,9 @@
 		"prisma:fmt": "prisma format",
 		"prisma:gen": "prisma generate",
 		"prisma:migrate": "prisma migrate dev --preview-feature",
-		"prisma:seed": "prisma db seed"
+		"prisma:seed": "prisma db seed",
+		"prisma:reset": "prisma db push --force-reset",
+		"prisma:dev": "pnpm prisma:fmt && pnpm prisma:gen && pnpm prisma:reset && pnpm prisma:seed"
 	},
 	"prisma": {
 		"seed": "ts-node prisma/seed/main.ts"

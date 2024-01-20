@@ -7,7 +7,7 @@ async function createUsers() {
 
 	const hashedPassword = await bcrypt.hash("password", 10);
 	const users: Prisma.UserCreateInput[] = [...Array(3)].map((_, i) => ({
-		name: `test_${i + 1}`,
+		username: `test_${i + 1}`,
 		hashedPassword,
 	}));
 
