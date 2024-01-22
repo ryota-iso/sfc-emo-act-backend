@@ -1,9 +1,11 @@
 import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
 import type { Server as HttpServer } from "http";
 import { SocketIOServer, SocketIOSocket, SocketData } from "./index.types";
 // import crypto from "crypto";
 
 export const initSocketIO = (httpServer: HttpServer) => {
+	// Socket.IOの初期化
 	const io = new Server<SocketIOServer>(httpServer, {
 		cors: {
 			origin: [
@@ -13,6 +15,12 @@ export const initSocketIO = (httpServer: HttpServer) => {
 			methods: ["GET", "POST"],
 			credentials: true,
 		},
+	});
+
+	// Admin UIの設定
+	instrument(io, {
+		auth: false,
+		mode: "development",
 	});
 
 	// TODO: 認証の追加,  middlewareをセキュアにする

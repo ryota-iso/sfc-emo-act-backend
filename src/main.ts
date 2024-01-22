@@ -23,7 +23,7 @@ httpServer.listen(port, () => {
  */
 // CORS
 const corsOptions = {
-	origin: process.env.CLIENT_URL,
+	origin: "https://localhost.brax.dev",
 	optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
