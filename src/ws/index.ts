@@ -8,10 +8,7 @@ export const initSocketIO = (httpServer: HttpServer) => {
 	// Socket.IOの初期化
 	const io = new Server<SocketIOServer>(httpServer, {
 		cors: {
-			origin: [
-				process.env.FRONT_URL || "http://localhost:3000",
-				"https://admin.socket.io",
-			],
+			origin: ["https://localhost.brax.dev", "https://admin.socket.io"],
 			methods: ["GET", "POST"],
 			credentials: true,
 		},
@@ -42,6 +39,9 @@ export const initSocketIO = (httpServer: HttpServer) => {
 		next();
 	});
 
+	/**
+	 * 接続時の処理
+	 */
 	io.on("connection", async (socket: SocketIOSocket) => {
 		console.log(
 			`[Socket.IO /] Client connected: ${JSON.stringify(socket.data)}`,
@@ -50,14 +50,28 @@ export const initSocketIO = (httpServer: HttpServer) => {
 		// ルームに参加
 		socket.join(socket.data.room.uuid);
 
-		// 位置情報の更新を受信
+		/**
+		 * 位置情報の更新を受信
+		 */
 		socket.on("locationUpdate", (location) => {
 			console.log(`[Socket.IO /] locationUpdate: ${location}`);
 			// 位置情報の更新を送信
 			socket.to(socket.data.room.uuid).emit("locationUpdate", location);
 		});
 
-		// 切断時の処理
+		/**
+		 * 行動の特徴量を受信
+		 */
+		socket.on("actionFeatureUpdate", (feature) => {
+			console.log(
+				`[Socket.IO /] actionFeatureUpdate: ${JSON.stringify(feature)}`,
+			);
+			// 推定した行動の種類を送信
+		});
+
+		/**
+		 * 切断時の処理
+		 */
 		socket.on("disconnect", () => {
 			console.log("Client disconnected");
 
