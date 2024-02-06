@@ -1,24 +1,35 @@
+import express from "express";
+import type { Application, Request, Response, NextFunction } from "express";
+import { createServer } from "http";
+import { initSocketIO } from "./ws";
 import dotenv from "dotenv";
-import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 
 import indexRouter from "./routes/index";
 
 dotenv.config();
 
-const app: express.Application = express();
+const app: Application = express();
+const httpServer = createServer(app);
+initSocketIO(httpServer);
 
+const port = process.env.PORT || 3000;
+httpServer.listen(port, () => {
+	console.log(`Server is running on port ${port}`);
+});
+
+/**
+ * Express Middleware
+ */
 // CORS
 const corsOptions = {
-	origin: process.env.CLIENT_URL,
+	origin: "https://localhost.brax.dev",
 	optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
+// Body parser
 app.use(express.json());
-
-// API v1
-app.use("/api", indexRouter);
 
 // error handler
 function errorHandler(
@@ -32,10 +43,7 @@ function errorHandler(
 }
 app.use(errorHandler);
 
-// Configurations
-const port = process.env.PORT || 3000;
-
-// Start server
-app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`);
-});
+/**
+ * Express Router
+ */
+app.use("/api", indexRouter);

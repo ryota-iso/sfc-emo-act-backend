@@ -5,12 +5,15 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "nodemon --exec ts-node src/main.ts",
+		"start": "node dist/main.js",
 		"fmt": "biome format --write src/",
 		"lint": "biome lint src/",
 		"prisma:fmt": "prisma format",
 		"prisma:gen": "prisma generate",
 		"prisma:migrate": "prisma migrate dev --preview-feature",
-		"prisma:seed": "prisma db seed"
+		"prisma:seed": "prisma db seed",
+		"prisma:reset": "prisma db push --force-reset",
+		"prisma:dev": "pnpm prisma:fmt && pnpm prisma:gen && pnpm prisma:reset && pnpm prisma:seed"
 	},
 	"prisma": {
 		"seed": "ts-node prisma/seed/main.ts"
@@ -29,10 +32,12 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^5.7.1",
+		"@socket.io/admin-ui": "^0.5.1",
 		"bcrypt": "^5.1.1",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"jsonwebtoken": "^9.0.2",
+		"socket.io": "^4.7.4",
 		"uuid": "^9.0.1"
 	},
 	"volta": {
